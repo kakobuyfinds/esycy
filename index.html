@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="index, follow, max-image-preview:large">
+  <meta name="referrer" content="strict-origin-when-cross-origin">
+  <meta name="theme-color" content="#142a22">
+  <title>SuperBuy spreadsheet | Product Finds, QC &amp; Shipping Costs</title>
+  <meta name="description" content="Browse SuperBuy spreadsheet finds from HipoBuyFind, compare CNY listing prices, and plan your order with a warehouse QC checklist and shipping cost calculator.">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="SuperBuy spreadsheet | Product Finds, QC &amp; Shipping Costs">
+  <meta property="og:description" content="Find shoes, clothing and bags, check seller details, and estimate your order cost before shipping.">
+  <!--
+    File: index.html
+    Search review: superbuyspreadsheet.org emphasizes catalog depth and search.
+    sheet-superbuy.com and superbuys.store combine discovery with QC and shipping guides.
+    rep.tools/guides/superbuy-spreadsheet explains original listing links.
+    This page adds traceable catalog entries, category-specific inspection checks,
+    and an editable cost worksheet that distinguishes an estimate from a quote.
+    Catalog source: https://hipobuyfind.com/
+    Indexing status: pending. No public deployment URL was supplied.
+    Once published, use the final public URL as the self-canonical and submit it
+    through Google Search Console URL Inspection and Bing Webmaster Tools URL Submission.
+    Google: https://developers.google.com/search/docs/crawling-indexing/ask-google-to-recrawl
+    Bing: https://www.bing.com/webmasters/help/URL-Submission-62f2860b
+  -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebPage",
+    "name": "SuperBuy spreadsheet",
+    "inLanguage": "en",
+    "description": "An independent shopping guide with a HipoBuyFind catalog selection, warehouse quality checks and a parcel cost worksheet.",
+    "mainEntity": {
+      "@type": "ItemList",
+      "name": "HipoBuyFind product selection",
+      "itemListElement": [
+        {"@type":"ListItem","position":1,"name":"Cream chunky sneakers","url":"https://hipobuyfind.com/goods-148191.html"},
+        {"@type":"ListItem","position":2,"name":"Fleece-lined hoodie","url":"https://hipobuyfind.com/goods-154917.html"},
+        {"@type":"ListItem","position":3,"name":"Graphic short-sleeve tee","url":"https://hipobuyfind.com/goods-154920.html"},
+        {"@type":"ListItem","position":4,"name":"Quick-dry hooded jacket","url":"https://hipobuyfind.com/goods-154851.html"},
+        {"@type":"ListItem","position":5,"name":"Shorts","url":"https://hipobuyfind.com/goods-152251.html"},
+        {"@type":"ListItem","position":6,"name":"Beige quilted mini backpack","url":"https://hipobuyfind.com/goods-154850.html"}
+      ]
+    }
+  }
+  </script>
+  <style>
+    :root {
+      color-scheme: light;
+      --paper: #f6f4eb;
+      --surface: #fffdf7;
+      --ink: #182b23;
+      --muted: #4e6057;
+      --line: #d8dfd4;
+      --forest: #142a22;
+      --lime: #d6f58e;
+      font-family: "Instrument Sans", system-ui, sans-serif;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; }
+    [hidden] { display: none !important; }
+    body { margin: 0; background: var(--paper); color: var(--ink); line-height: 1.55; }
+    a { color: inherit; text-underline-offset: .2em; }
+    a:hover { text-decoration-thickness: .15em; }
+    :focus-visible { outline: 3px solid #338a5d; outline-offset: 4px; }
+    .wrap { width: min(72rem, calc(100% - 2rem)); margin-inline: auto; }
+    .top, .hero { background: var(--forest); color: var(--surface); }
+    .top .wrap { display: flex; justify-content: space-between; align-items: center; gap: 1rem; padding-block: 1rem; }
+    .brand { color: var(--lime); font-weight: 750; }
+    nav, .actions { display: flex; flex-wrap: wrap; gap: .75rem 1.25rem; }
+    nav a { font-size: .9rem; }
+    .hero { padding: clamp(3rem, 9vw, 7rem) 1rem; text-align: center; }
+    .hero h1, h2 { font-family: "Instrument Serif", Georgia, serif; font-weight: 400; line-height: 1.05; }
+    h1 { font-size: clamp(2.7rem, 8vw, 6.6rem); margin: 0; letter-spacing: -.045em; }
+    h2 { font-size: clamp(2rem, 5vw, 3.45rem); margin: 0 0 .8rem; letter-spacing: -.03em; }
+    h3 { margin: 0 0 .45rem; font-size: 1.05rem; }
+    .hero p { max-width: 39rem; margin: 1.2rem auto 1.8rem; color: #e0e9df; }
+    .actions { justify-content: center; }
+    .cta {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: .75rem 1.15rem;
+      border: 1px solid var(--lime);
+      border-radius: 100px;
+      text-decoration: none;
+      font-weight: 700;
+      color: var(--lime);
+    }
+    .cta.primary { background: var(--lime); color: var(--forest); }
+    .cta:hover { box-shadow: 0 0 0 3px #d6f58e45; }
+    main { padding-block: 2.5rem 4rem; }
+    section { margin-block: 0 3rem; scroll-margin-top: 1rem; }
+    section:last-child { margin-bottom: 0; }
+    p { margin: 0 0 1rem; }
+    .muted, .source-id { color: var(--muted); }
+    .source-id { display: block; font-size: .82rem; }
+    .controls, .cost-inputs { display: grid; gap: .8rem; margin-block: 1rem; }
+    .controls { grid-template-columns: minmax(0, 2fr) minmax(0, 1fr); }
+    label { display: grid; gap: .25rem; font-weight: 650; }
+    input, select, button {
+      min-width: 0;
+      padding: .65rem .8rem;
+      border: 1px solid #87998a;
+      border-radius: .5rem;
+      background: var(--surface);
+      color: var(--ink);
+      font: inherit;
+    }
+    button { cursor: pointer; }
+    .catalog { background: var(--surface); border: 1px solid var(--line); border-radius: .85rem; overflow: hidden; }
+    table { width: 100%; border-collapse: collapse; text-align: left; }
+    th, td { padding: .9rem 1rem; }
+    thead { background: #e3ecde; }
+    tbody tr + tr { border-top: 1px solid var(--line); }
+    tbody th { font-weight: 700; }
+    td:last-child { font-variant-numeric: tabular-nums; white-space: nowrap; }
+    .cards { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: .85rem; }
+    .card, .cost { background: var(--surface); border: 1px solid var(--line); border-radius: .85rem; padding: 1.2rem; }
+    .card p:last-child, .cost p:last-child { margin-bottom: 0; }
+    .cost-inputs { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    .total { margin-top: 1rem; padding-top: .8rem; border-top: 1px solid var(--line); }
+    output { font-weight: 750; font-variant-numeric: tabular-nums; }
+    details { padding-block: .8rem; border-bottom: 1px solid var(--line); }
+    summary { cursor: pointer; font-weight: 700; }
+    details p { margin: .55rem 0 0; max-width: 68ch; }
+    footer { padding-block: 1.3rem; background: var(--forest); color: var(--surface); font-size: .9rem; }
+    footer p { margin: 0; }
+
+    @media (max-width: 42rem) {
+      .top .wrap { flex-wrap: wrap; }
+      .cards, .controls { grid-template-columns: 1fr; }
+      .cost-inputs { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      th, td { padding: .65rem .45rem; font-size: .87rem; overflow-wrap: anywhere; }
+    }
+    @media (max-width: 23rem) {
+      .cost-inputs { grid-template-columns: 1fr; }
+    }
+  </style>
+<link rel="canonical" href="https://kakobuyfinds.github.io/esycy/">
+</head>
+<body>
+  <header class="top">
+    <div class="wrap">
+      <span class="brand">SuperBuy shopping guide</span>
+      <nav aria-label="Page sections">
+        <a href="#catalog">Catalog</a>
+        <a href="#checks">QC checklist</a>
+        <a href="#shipping">Cost calculator</a>
+      </nav>
+    </div>
+  </header>
+
+  <div class="hero">
+    <h1>SuperBuy spreadsheet</h1>
+    <p>Compare shoes, clothing and bags from HipoBuyFind, check the seller’s size chart, and budget for shipping before placing an order through a buying agent.</p>
+    <div class="actions">
+      <a class="cta primary" href="https://hipobuyfind.com">SuperBuy spreadsheet</a>
+      <a class="cta" href="https://hipobuyfind.com">Buy it now</a>
+    </div>
+  </div>
+
+  <main class="wrap">
+    <section aria-labelledby="start-title">
+      <h2 id="start-title">From product listing to warehouse</h2>
+      <p>Open a product below and use its Buy Link menu to find the seller’s original listing or a SuperBuy link when available. Confirm the color, size, and price on the source listing. If you use a buying agent, review the warehouse photos and check the return deadline before approving shipment.</p>
+    </section>
+
+    <section id="catalog" aria-labelledby="catalog-title">
+      <h2 id="catalog-title">HipoBuyFind product catalog</h2>
+      <p class="muted">A selection of real listings with their reference prices in Chinese yuan. Open each product for photos and check the current seller price, stock, and available sizes.</p>
+      <div id="filters" class="controls" hidden>
+        <label for="query">Find a product
+          <input id="query" type="search" placeholder="Try sneakers, hoodie or 154920" aria-controls="catalog-table">
+        </label>
+        <label for="category">Category
+          <select id="category" aria-controls="catalog-table">
+            <option value="">All categories</option>
+            <option>Shoes</option>
+            <option>Hoodies</option>
+            <option>T-shirts</option>
+            <option>Jackets</option>
+            <option>Shorts</option>
+            <option>Bags</option>
+          </select>
+        </label>
+      </div>
+      <p id="catalog-status" class="muted" role="status" hidden></p>
+      <div class="catalog" id="catalog-table">
+        <table aria-labelledby="catalog-title">
+          <thead>
+            <tr><th scope="col">Product</th><th scope="col">Category</th><th scope="col">Price (CNY)</th></tr>
+          </thead>
+          <tbody>
+            <tr data-category="Shoes">
+              <th scope="row"><a href="https://hipobuyfind.com/goods-148191.html">Cream chunky sneakers</a><span class="source-id">Item 148191</span></th>
+              <td>Shoes</td><td>¥350.00</td>
+            </tr>
+            <tr data-category="Hoodies">
+              <th scope="row"><a href="https://hipobuyfind.com/goods-154917.html">Fleece-lined hoodie</a><span class="source-id">Item 154917</span></th>
+              <td>Hoodies</td><td>¥170.00</td>
+            </tr>
+            <tr data-category="T-shirts">
+              <th scope="row"><a href="https://hipobuyfind.com/goods-154920.html">Graphic short-sleeve tee</a><span class="source-id">Item 154920</span></th>
+              <td>T-shirts</td><td>¥105.00</td>
+            </tr>
+            <tr data-category="Jackets">
+              <th scope="row"><a href="https://hipobuyfind.com/goods-154851.html">Quick-dry hooded jacket</a><span class="source-id">Item 154851</span></th>
+              <td>Jackets</td><td>¥157.14</td>
+            </tr>
+            <tr data-category="Shorts">
+              <th scope="row"><a href="https://hipobuyfind.com/goods-152251.html">Shorts</a><span class="source-id">Item 152251</span></th>
+              <td>Shorts</td><td>¥104.40</td>
+            </tr>
+            <tr data-category="Bags">
+              <th scope="row"><a href="https://hipobuyfind.com/goods-154850.html">Beige quilted mini backpack</a><span class="source-id">Item 154850</span></th>
+              <td>Bags</td><td>¥340.00</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section id="checks" aria-labelledby="checks-title">
+      <h2 id="checks-title">What to ask for in warehouse QC photos</h2>
+      <div class="cards">
+        <article class="card">
+          <h3>Shoes</h3>
+          <p>Request a photo of both size labels and an insole measurement. Compare the measured length with a pair that fits. Check both shoes for differences in color, shape, or visible damage.</p>
+        </article>
+        <article class="card">
+          <h3>Clothing</h3>
+          <p>For tops, compare chest width and back length with a garment laid flat. For shorts, confirm whether the waist measurement is flat or stretched. Ask for a close-up if a seam, zipper, or print is hard to see.</p>
+        </article>
+        <article class="card">
+          <h3>Bags</h3>
+          <p>Check the width against the largest item you plan to carry. Request photos of the strap attachment points, zipper, and inside lining before approving the parcel.</p>
+        </article>
+      </div>
+    </section>
+
+    <section id="shipping" aria-labelledby="shipping-title">
+      <h2 id="shipping-title">Estimate your delivered cost</h2>
+      <p class="muted" id="cost-note">Enter all amounts in CNY. Get an international shipping quote for your destination and packed parcel dimensions. Some lines use dimensional weight, so a bulky box can increase the quote.</p>
+      <form id="cost-form" class="cost" aria-describedby="cost-note" hidden>
+        <div class="cost-inputs">
+          <label>Items subtotal
+            <input type="number" name="items" min="0" step="0.01" inputmode="decimal">
+          </label>
+          <label>Domestic shipping
+            <input type="number" name="domestic" min="0" step="0.01" inputmode="decimal">
+          </label>
+          <label>Agent and packing fees
+            <input type="number" name="fees" min="0" step="0.01" inputmode="decimal">
+          </label>
+          <label>International shipping
+            <input type="number" name="international" min="0" step="0.01" inputmode="decimal">
+          </label>
+          <label>Estimated taxes and duties
+            <input type="number" name="taxes" min="0" step="0.01" inputmode="decimal">
+          </label>
+        </div>
+        <button type="submit">Calculate estimate</button>
+        <p class="total"><output id="estimate" aria-live="polite">Enter your known costs to calculate a subtotal.</output></p>
+      </form>
+      <noscript>
+        <p>Add your item subtotal, domestic delivery, agent fees, international shipping, and estimated taxes or duties. Use the same currency for every amount.</p>
+      </noscript>
+    </section>
+
+    <section aria-labelledby="faq-title">
+      <h2 id="faq-title">SuperBuy spreadsheet FAQ</h2>
+      <details>
+        <summary>What is a SuperBuy spreadsheet?</summary>
+        <p>It is a product index shoppers can use to find and compare listings before buying through SuperBuy. This independent guide draws its product selection from HipoBuyFind.</p>
+      </details>
+      <details>
+        <summary>What if the SuperBuy link no longer works?</summary>
+        <p>Check the product’s Buy Link menu for the original seller listing. If the listing still opens and the agent accepts the item, paste the original URL into the agent’s order form and verify the item details before paying.</p>
+      </details>
+      <details>
+        <summary>Is the catalog price the final amount I pay?</summary>
+        <p>The CNY figure is a reference for the item. Add domestic delivery, agent fees, international freight, and any applicable taxes or duties to compare the delivered cost.</p>
+      </details>
+      <details>
+        <summary>Can warehouse QC photos verify authenticity?</summary>
+        <p>Warehouse photos can help you confirm visible features, measurements, and condition. For authenticity, verify the seller and request documentation that supports the product’s origin.</p>
+      </details>
+    </section>
+  </main>
+
+  <footer>
+    <div class="wrap">
+      <p>Independent shopping guide. Catalog source and shopping destination <a href="https://hipobuyfind.com">HipoBuyFind</a>.</p>
+    </div>
+  </footer>
+
+  <script>
+    (() => {
+      const filters = document.querySelector('#filters');
+      const query = document.querySelector('#query');
+      const category = document.querySelector('#category');
+      const status = document.querySelector('#catalog-status');
+      const rows = [...document.querySelectorAll('#catalog-table tbody tr')];
+      const catalog = document.querySelector('#catalog-table');
+
+      function filterCatalog() {
+        const terms = query.value.trim().toLowerCase().split(/\s+/).filter(Boolean);
+        let visible = 0;
+
+        for (const row of rows) {
+          const text = row.textContent.toLowerCase();
+          const matchesCategory = !category.value || row.dataset.category === category.value;
+          const matchesQuery = terms.every(term => text.includes(term));
+          row.hidden = !(matchesCategory && matchesQuery);
+          if (!row.hidden) visible += 1;
+        }
+
+        catalog.hidden = visible === 0;
+        status.textContent = visible
+          ? `${visible} of ${rows.length} listings shown`
+          : 'No matching products. Clear your search or choose another category.';
+      }
+
+      query.addEventListener('input', filterCatalog);
+      category.addEventListener('change', filterCatalog);
+      filters.hidden = false;
+      status.hidden = false;
+      filterCatalog();
+
+      const form = document.querySelector('#cost-form');
+      const result = document.querySelector('#estimate');
+      const amounts = [...form.querySelectorAll('input')];
+      const currency = new Intl.NumberFormat('en', {
+        style: 'currency',
+        currency: 'CNY',
+        currencyDisplay: 'code'
+      });
+
+      form.addEventListener('submit', event => {
+        event.preventDefault();
+        const entered = amounts.filter(input => input.value !== '');
+
+        if (entered.length === 0) {
+          result.textContent = 'Enter at least one cost to calculate a subtotal.';
+          amounts[0].focus();
+          return;
+        }
+
+        const totalFen = entered.reduce((total, input) =>
+          total + Math.round(input.valueAsNumber * 100), 0);
+
+        result.textContent = entered.length === amounts.length
+          ? `Estimated total ${currency.format(totalFen / 100)}`
+          : `Subtotal of entered costs ${currency.format(totalFen / 100)}. Blank fields are excluded.`;
+      });
+
+      form.addEventListener('input', () => {
+        result.textContent = 'Select Calculate estimate to update your total.';
+      });
+
+      form.hidden = false;
+    })();
+  </script>
+</body>
+</html>
